@@ -5,7 +5,6 @@
 ## El mayor numero de nodes puede llegar a ser máximo 21 (cola CI) (21*12)=252 
 ## El mayor numero de nodes puede llegar a ser máximo 8 (cola CI)  (8*32)=256
 
-
 ### Nombre de la tarea
 #PBS -N sample_1
 
