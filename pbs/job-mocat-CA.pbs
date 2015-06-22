@@ -44,7 +44,6 @@ echo $NM > $PBS_O_WORKDIR/admon/nm-$PBS_JOBNAME.txt;
 echo $NP > $PBS_O_WORKDIR/admon/np-$PBS_JOBNAME.txt;
 env      > $PBS_O_WORKDIR/admon/entorno-$PBS_JOBNAME.txt;
 
-
 #export OMP_NUM_THREADS=2; 
 
 /home/jgmena/mock_community/RUN_PIPELINE.sh /scratch/users/jgmena/$PBS_JOBNAME-$PBS_JOBID  &
