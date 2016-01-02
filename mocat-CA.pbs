@@ -1,5 +1,4 @@
 #!/bin/bash
-###
 ## La cantidad de memoria requerida no puede ser mayor a 22GB (cola CI).
 ## La cantidad de memoria requerida no puede ser mayor a 62GB (cola CA).
 ## El mayor numero de nodes puede llegar a ser máximo 21 (cola CI) (21*12)=252 
