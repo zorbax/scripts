@@ -2,10 +2,8 @@
 ###
 ## La cantidad de memoria requerida no puede ser mayor a 22GB (cola CI).
 ## La cantidad de memoria requerida no puede ser mayor a 62GB (cola CA).
-## Mantener el archivo de la lista de nodos y creacion de la carpeta  admon.
 ## El mayor numero de nodes puede llegar a ser máximo 21 (cola CI) (21*12)=252 
 ## El mayor numero de nodes puede llegar a ser máximo 8 (cola CI)  (8*32)=256
-
 
 ### Nombre de la tarea
 #PBS -N MuSeek.cut50410.musket
@@ -41,18 +39,12 @@ NP=`(wc -l < $PBS_NODEFILE) | awk '{print $1}'`
 cat $PBS_NODEFILE |sort|uniq> mpd.hosts
 NM=$(cat mpd.hosts|wc -l |awk '{print $1}')
 
-
-
 mkdir $PBS_O_WORKDIR/admon;
 echo $NM > $PBS_O_WORKDIR/admon/nm-$PBS_JOBNAME.txt;
 echo $NP > $PBS_O_WORKDIR/admon/np-$PBS_JOBNAME.txt;
 env      > $PBS_O_WORKDIR/admon/entorno-$PBS_JOBNAME.txt;
 
-
-
-
 #export OMP_NUM_THREADS=2; 
-
 
 /home/jgmena/mock_community/RUN_PIPELINE.sh /scratch/users/jgmena/$PBS_JOBNAME-$PBS_JOBID  &
 
