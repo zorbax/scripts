@@ -1,25 +1,34 @@
+#chortcuts
+```
 git init
 git add .
 git status
 git commit -m "Commit message"
 #just for new repository
 git remote add origin https://github.com/zorbax/cc.git
+
 git push origin master
+```
 
 
-
-Change the URI (URL) for a remote Git repository
+#Change the URI (URL) for a remote Git repository
+```
 git remote set-url origin git://github.com/zorbax/scripts.git
+```
 
 # Set git to use the credential memory cache
+```
 git config --global credential.helper cache
-
+```
 # Set the cache to timeout after 1 hour (setting is in seconds)
+```
 git config --global credential.helper 'cache --timeout=3600'
-
+```
 
 #Update local repository to the newest commit 
+```
 git pull
+```
 
 #cc
 
