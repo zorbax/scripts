@@ -26,9 +26,9 @@ git config --global credential.helper 'cache --timeout=3600'
 git pull
 ```
 
-##### cc
+##### CC
 
---- | ---
+:---: | --- | ---
 git init | creates a new Git repository
 git status | inspects the contents of the working directory and staging area
 git add | adds files from the working directory to the staging area
