@@ -3,7 +3,6 @@
 convert_fastaqual_fastq.py -c fastq_to_fastaqual -f V3-341F1_28.fastq -o V3-341F1_28
 
 #COMBINE ALL DEMULTIPLEXED FILES
-
 add_qiime_labels.py -i ratas_probiotic/fastaqual -m fasting_map_combine.txt -c InputFileName -n 100000000 -o combined_fasta
 
 #OTU PICKING- TAXONOMY ASSIGNMENT
@@ -23,7 +22,6 @@ summarize_taxa_through_plots.py -i sorted_otu_table.biom -o taxa_summary_ratas_a
 biom summarize-table -i sorted_otu_table.biom -o otu_table_summary_table.txt
 
 #LIST OF ALPHA DIVERSITY MATRIX
-
 echo "alpha_diversity:metrics berger_parker_d,chao1,chao1_confidence,fisher_alpha,goods_coverage,observed_species,osd,simpson_reciprocal,shannon,simpson,simpson_e,PD_whole_tree" > alpha_params.txt
 
 alpha_rarefaction.py -i sorted_otu_table.biom -m fasting_map_combine.txt -o wf_arare_ratas/ -p alpha_params.txt -t otus/rep_set.tre
