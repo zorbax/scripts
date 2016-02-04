@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/python
 tabby_cat = "\tI'm tabbed in."
 persian_cat = "I'm split\n\ton a line."
 backslash_cat = "I'm \\ a \\ cat."

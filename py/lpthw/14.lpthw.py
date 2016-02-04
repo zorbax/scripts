@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/python
 from sys import argv
 
 script, user_name = argv
