@@ -8,7 +8,7 @@ date
 echo ""
 
 fasta_file=$1
-START=$(date +%s)
+start=$(date +%s)
 
 for ((k=33, i =1; k<99; k=k+2, i++))
 do
@@ -20,9 +20,9 @@ do
     echo "--------------------------------------------------------------------------"
 done
 
-END=$(date +%s)
-DIFF=$(( $END - $START ))
-echo "RUN TIME = $DIFF seconds"
+end=$(date +%s)
+diff=$(( $end - $start ))
+echo "RUN TIME = $diff seconds"
 
 
 
