@@ -28,5 +28,4 @@ alpha_rarefaction.py -i sorted_otu_table.biom -m fasting_map_combine.txt -o wf_a
 
 #BETA DIVERSITY MATRIX 
 beta_diversity_through_plots.py -i sorted_otu_table.biom -m fasting_map_combine.txt -o wf_bdiv_even12_ratas/ -t otus/rep_set.tre
-
 jackknifed_beta_diversity.py -i sorted_otu_table.biom -t otus/rep_set.tre -m fasting_map_combine.txt -o wf_jack_ratas_probiotic -e 110
