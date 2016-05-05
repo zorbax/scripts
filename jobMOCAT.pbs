@@ -1,0 +1,95 @@
+#!/bin/bash
+### Inicia el script de PBS
+
+## Las sentecias que inician con: "#PBS" 
+## son comandos para el sistema de colas PBS.
+
+## Es necesario editar este script, cambiando <nodes= # de nodos requeridos>,
+## P.E. si se requieren 48 core entonecs nodes=4 ... etc.  
+## Se debe dejar ppn=12 que son los cores por nodo existentes, 
+## Editar los Nombres de los archivos de salida
+## Editar el Nombre del JOB la tarea y <ejecutable>.
+## La cantidad de memoria requerida no puede ser mayor a 22GB (cola CI).
+## La cantidad de memoria requerida no puede ser mayor a 62GB (cola CA).
+## Mantener el archivo de la lista de nodos y creacion de la carpeta  admon.
+## El mayor numero de nodes puede llegar a ser máximo 21 (cola CI) (21*12)=252 
+## El mayor numero de nodes puede llegar a ser máximo 8 (cola CI)  (8*32)=256
+
+
+### Nombre de la tarea
+#PBS -N bgi
+
+###Opciones de ejecucion (nodes=numero de nodos; ppn=procesadores por nodo)
+#PBS -l nodes=1:ppn=32
+
+###Tiempo ejecucion maximo (no es indispensable, pero es recomendable para encolar el trabajo correctamente)
+##PBS -l walltime=48:00:00
+
+### Nombre de la cola
+#PBS -q CAM256
+
+### Entra al directorio de trabajo actual
+##echo Working directory is $PBS_O_WORKDIR
+
+cd $PBS_O_WORKDIR
+
+
+##export OMP_NUM_THREADS=$PBS_NP; 
+export OMP_NUM_THREADS=32; 
+
+
+source /opt/intel/icsxe/2012.0.032/ictvars.sh intel64
+
+### Obtiene el numero de procesadores en que
+##se ejecutara la tarea (nodos X ppn) y lo
+##guarda en la variable de entorno $NP
+NP=`(wc -l < $PBS_NODEFILE) | awk '{print $1}'`
+
+cat $PBS_NODEFILE |sort|uniq> mpd.hosts
+NM=$(cat mpd.hosts|wc -l |awk '{print $1}')
+
+
+
+ADMON_DIR="$PBS_O_WORKDIR"/admon-"$PBS_JOBID";
+mkdir -p $ADMON_DIR;
+echo $NM > $ADMON_DIR/nm-$PBS_JOBNAME.txt;
+echo $NP > $ADMON_DIR/np-$PBS_JOBNAME.txt;
+env      > $ADMON_DIR/entorno-$PBS_JOBNAME.txt;
+cat mpd.hosts > $ADMON_DIR/lista-nodos.txt;
+
+#runMOCAT.sh 3 -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg 
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -rtf
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -a
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -ar
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -gp assembly.revised
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -fmg assembly.revised
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -ss
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -s mOTU.v1.padded -r reads.processed -cpus 32 -identity 97 -no_screened_files -config screen_soap_max_mm=5
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -f mOTU.v1.padded -r reads.processed -identity 97 -config filter_psort_buffer=2G -memory 5G
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -s RefMG.v1.padded -r mOTU.v1.padded -e -only_map -cpus 32 identity 97 -config screen_soap_max_mm=5
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -f RefMG.v1.padded -r mOTU.v1.padded -e -identity 97 -config filter_psort_buffer=2G -memory 5G
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -p mOTU.v1.padded -r reads.processed -mode mOTU -identity 97 -memory 3G
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -p RefMG.v1.padded -r mOTU.v1.padded -e -identity 97 -mode RefMG -previous_db_calc_tax_stats_file -memory 3G
+#MOCAT.pl -sf "$PBS_JOBNAME".index  -cfg "$PBS_JOBNAME".cfg -ss
+
+#########MOCAT2
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -rtf
+MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -a -r reads.processed 
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -ar assembly.reads
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -gp assembly
+
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -make_gene_catalog -assembly_type assembly
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -annotate_gene_catalog
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -s "$PBS_JOBNAME".index.padded -identity 95
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -f "$PBS_JOBNAME".index.padded -identity 95
+
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -p "$PBS_JOBNAME".index.padded -identity 95 -mode gene
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -p "$PBS_JOBNAME".index.padded -identity 95 -mode NCBI
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -p "$PBS_JOBNAME".index.padded -identity 95 -mode mOTU
+#MOCAT.pl -sf "$PBS_JOBNAME".index -cfg "$PBS_JOBNAME".cfg -p "$PBS_JOBNAME".index.padded -identity 95 -mode functional
+
+wait 
+
+exit 0
+### Termina el script de PBS
+
