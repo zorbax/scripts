@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 ROOT_UID="0"
 #Checking if run as root
-if [ "$UID" -ne "$ROOT_UID" ] ; then
-echo "You must be root to run this script!"
-echo "sudo ./post_install_ubuntu"
-exit 1
+if [ "$UID" -ne "$ROOT_UID" ]
+	then
+		echo "You must be root to run this script!"
+		echo "sudo ./post_install_ubuntu"
+		exit 1
 fi
 
 echo "# -------------------------------------------------------"
@@ -56,7 +57,7 @@ if [ "$yes" = "y" ]
 
 	#Stuff
 	apt-get -y install python-dev python-pip python-biopython samtools r-base
-	#Add repositories
+	#Add repositories Bio-Linux
 #	echo "deb http://nebc.nerc.ac.uk/bio-linux/ unstable bio-linux" | tee -a /etc/apt/sources.list
 #	apt-get update
 #	Install keyring
