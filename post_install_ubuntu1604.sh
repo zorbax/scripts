@@ -8,11 +8,11 @@ if [ "$UID" -ne "$ROOT_UID" ]
 		exit 1
 fi
 
-echo "# -------------------------------------------------------"
+echo "# -----------------------------------------------------------"
 echo "#"
 echo "#  Ubuntu 16.04 LTS Post-installation script - CINVESTAV 2016"
 echo "#"
-echo "# -------------------------------------------------------"
+echo "# -----------------------------------------------------------"
 echo
 echo "Finishing the installation may take several minutes"
 echo
@@ -52,7 +52,9 @@ if [ "$yes" = "y" ]
 	# ---------------------------------------------------
 	# ------------ Multimedia Codecs & Flash ------------
 	# medibuntu codecs & flash
+	echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 	apt-get -y install ubuntu-restricted-extras
+	fc-cache -fv
 	apt-get -y install ffmpeg gxine libdvdread4 icedax tagtool libdvd-pkg libavcodec-extra gstreamer1.0-libav
 
 	#Stuff
