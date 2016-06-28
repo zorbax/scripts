@@ -58,7 +58,7 @@ if [ "$yes" = "y" ]
 	apt-get -y install ffmpeg gxine libdvdread4 icedax tagtool libdvd-pkg libavcodec-extra gstreamer1.0-libav
 
 	#Stuff
-	apt-get -y install python-dev python-pip python-biopython samtools r-base
+	apt-get -y install python-dev python-pip python-biopython samtools
 	#Add repositories Bio-Linux
 #	echo "deb http://nebc.nerc.ac.uk/bio-linux/ unstable bio-linux" | tee -a /etc/apt/sources.list
 #	apt-get update
