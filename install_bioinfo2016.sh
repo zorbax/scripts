@@ -31,10 +31,13 @@ mkdir -p $HOME/bin
 mkdir -p $HOME/bin/R
 
 cat <<EOF >> $HOME/.bashrc
-if [ -d "$HOME/bin" ] ; then
+if [ -d "\$HOME/bin" ] ; then
     export PATH="\$HOME/bin:\$PATH"
 fi
 EOF
+
+#just in case
+#export PATH=/usr/bin:/bin
 
 cat <<EOF >> $HOME/.bashrc
 extract () {
@@ -62,8 +65,6 @@ echo "export R_LIBS=\$HOME/bin/R" >> $HOME/.bashrc
 echo "PATH=\"\$HOME/bin/perl5/bin\${PATH+:}\${PATH}\"; export PATH;" >> $HOME/.bashrc
 echo "PERL5LIB=\"\$HOME/bin/perl5/lib/perl5\${PERL5LIB+:}\${PERL5LIB}\"; export PERL5LIB;" >> $HOME/.bashrc
 
-echo "export PYTHONPATH=''"
-
 source $HOME/.bashrc
 
 #INSTALL QIIME
@@ -78,7 +79,6 @@ sudo apt-get -y install python-dev libncurses5-dev libssl-dev libzmq-dev libgsl-
 sudo apt-get autoremove && sudo apt-get autoclean && sudo apt-get clean
 
 ### QIIME v 1.9.1
-sudo apt-get install python-pip
 sudo pip install virtualenv
 
 ### Dependencias R
@@ -93,7 +93,7 @@ EOF
 Rscript install_packages.R
 rm install packages.R
 
-#Download qiime
+#Insall QIIME in virtualenv
 
 cd $HOME/bin
 mkdir -p qiime
@@ -105,9 +105,13 @@ source $HOME/bin/qiime/bin/activate
 
 pip install pip -U
 pip install setuptools numpy
-pip install biom-format scipy pandas 'scikit-bio==0.2.3' 'cogent==1.5.3'
+pip install biom-format scipy pandas
+pip install 'scikit-bio==0.2.3' 'cogent==1.5.3'
 
-echo "alias qiime_env=\"\$HOME/bin/qiime/activate\"" | tee -a $HOME/.bashrc
+echo "alias qiime_env=\"source \$HOME/bin/qiime/activate\"" | tee -a $HOME/.bashrc
+#to remove qiime from the path
+
+#Download qiime
 
 wget https://github.com/biocore/qiime/archive/1.9.1.tar.gz
 tar -zxvf 1.9.1.tar.gz && rm 1.9.1.tar.gz
@@ -120,7 +124,10 @@ python setup.py build
 
 python setup.py install --prefix=$HOME/bin/qiime
 
-echo ''
+echo "export PATH=\$HOME/bin/qiime/bin:\$PATH" >> $HOME/.bashrc
+source $HOME/.bashrc
+rm -r $HOME/bin/qiime-1.9.1
+cd ..
 
 ### Dependencias QIIME 1.9.0
 
@@ -128,6 +135,7 @@ git clone git://github.com/qiime/qiime-deploy.git
 git clone git://github.com/qiime/qiime-deploy-conf.git
 cd qiime-deploy/
 python qiime-deploy.py $HOME/bin/qiime_software/ -f $HOME/bin/qiime-deploy-conf/qiime-1.9.0/qiime.conf --force-remove-failed-dirs
+rm -r $HOME/bin/qiime-deploy $HOME/bin/qiime-deploy-conf
 source $HOME/.bashrc
 
 ### Test instalación
