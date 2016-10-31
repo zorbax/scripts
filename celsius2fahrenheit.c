@@ -1,6 +1,8 @@
 #include <stdio.h>
+
 /* print Fahrenheit-Celscious table
     for fahr = 0, 20, ...300 */
+
 main()
 {
     int fahr, celsius;
