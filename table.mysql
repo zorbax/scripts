@@ -1,0 +1,37 @@
+mysql -u root -p
+
+>
+
+CREATE DATABASE test01
+
+USE test01
+
+SELECT DATABASE();
+
+
+# +------------+
+# | DATABASE() |
+# +------------+
+# | test01     |
+# +------------+
+
+
+# SHOW TABLES FROM test01;
+
+SHOW TABLES;
+
+CREATE TABLE temp (
+    id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    expired_date DATE NOT NULL,
+    amount DECIMAL(10 , 2 ) NULL,
+    PRIMARY KEY (id)
+);
+
+
+LOAD DATA LOCAL INFILE '/home/zorbax/TEMP.csv' INTO TABLE temp FIELDS 
+TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+(Canal, Marca, Categoría, Linea, Venta, Devolución, Precio, Región, Semana)
