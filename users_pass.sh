@@ -41,3 +41,11 @@ do
 done
 
 #userdel -r
+
+
+while read -r username password; do
+  echo "creating user: ${username}"
+  useradd --gid students $username
+  # hack the planet!
+  echo "${password}\n${password}\n" | passwd $username
+done < passwords.tsv

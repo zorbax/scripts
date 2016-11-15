@@ -22,16 +22,26 @@ SHOW TABLES;
 
 CREATE TABLE temp (
     id INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    expired_date DATE NOT NULL,
-    amount DECIMAL(10 , 2 ) NULL,
+    Canal VARCHAR(20) NOT NULL,
+    Marca VARCHAR(20) NOT NULL,
+    Categoria VARCHAR(20) NOT NULL,
+    Linea VARCHAR(20) NOT NULL,
+    Venta NUMERIC (10) NULL,
+    Devolucion NUMERIC (5) NULL,
+    Precio DECIMAL(5 , 2 ) NULL,
+    Region VARCHAR(20) NOT NULL,
+    Semana NUMERIC(2) NOT NULL,
     PRIMARY KEY (id)
 );
 
 
-LOAD DATA LOCAL INFILE '/home/zorbax/TEMP.csv' INTO TABLE temp FIELDS 
+LOAD DATA LOCAL INFILE '/home/zorbax/TEMP.csv' INTO TABLE temp FIELDS
 TERMINATED BY ';'
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
-(Canal, Marca, Categoría, Linea, Venta, Devolución, Precio, Región, Semana)
+
+#(Canal, Marca, Categoria, Linea, Venta, Devolucion, Precio, Region, Semana)
+
+# SHOW COLUMNS FROM temp;
+SELECT * FROM temp;
