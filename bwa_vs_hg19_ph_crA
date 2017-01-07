@@ -1,0 +1,148 @@
+#!/bin/bash
+
+
+#httpd_conf_new=$1
+#httpd_conf_path="/usr/local/apache/conf"
+#login=htuser
+
+#farm_hosts=(web03 web04 web05 web06 web07)
+
+#for i in ${farm_hosts[@]}; do
+#        su $login -c "scp $httpd_conf_new ${i}:${httpd_conf_path}"
+#        su $login -c "ssh $i sudo /usr/local/apache/bin/apachectl graceful"
+#done
+#exit 0
+
+### Versus hg19 before trimming
+: <<'END'
+samples="norm01 norm02 norm03 norm04 norm05 norm06 norm07 norm08 norm09 norm10 obese01 obese02 obese03 obese04 obese05 obese06 obese07 obese08 obese09 obese10"
+for i in "${samples}"
+do
+    echo ""
+    echo "Bwa for ${i}"
+    bwa aln -t 8 hg19.fasta ${i}.1.fastq > ${i}.1.sai
+    bwa aln -t 8 hg19.fasta ${i}.2.fastq > ${i}.2.sai
+
+    bwa sampe hg19.fasta ${i}.1.sai ${i}.2.sai ${i}.1.fastq ${i}.2.fastq > ${i}_pe.sam
+	samtools view -Sb -F 4 ${i}_pe.sam  > ${i}_pe.mapped.bam
+ 	rm ${i}_pe.sam
+    echo "Done ${s}"
+done
+
+for i in *_ph.mapped.bam
+do
+	echo "$i"
+	samtools view -F 0x40 $i | cut -f1 | sort | uniq | wc -l
+done > stats_hg19.txt
+
+cat <<EOF >> stats_hg19.txt
+
+
+## FLAGSTAT ##
+
+
+EOF
+
+for i in *_ph.mapped.bam
+do
+	echo "#### $i ####"
+	samtools flagstat $i
+	echo ">>>>>>>>>>"
+done >> stats_hg19.txt
+
+# Trimming and screen was made with fastx_trimm and SOAP ;)
+
+### Versus crAssphage
+
+samples="norm01 norm02 norm03 norm04 norm05 norm06 norm07 norm08 norm09 norm10 obese01 obese02 obese03 obese04 obese05 obese06 obese07 obese08 obese09 obese10"
+for i in ${samples}
+do
+	echo "gapped/ungapped alignment for ${i}"
+	bwa aln -t 8 crAssphage.fasta ${i}\.ts.hg19.1.fastq  > ${i}\.1.cR.sai
+	bwa aln -t 8 crAssphage.fasta ${i}\.ts.hg19.2.fastq  > ${i}\.2.cR.sai
+
+	echo "Generate pair-end alignment for ${i}"
+	bwa sampe crAssphage.fasta ${i}.1.cR.sai ${i}.2.cR.sai ${i}.ts.hg19.1.fastq ${i}.ts.hg19.2.fastq > ${i}_cR.ph.sam
+
+	echo "SAM2mappedBAM"
+	samtools view -Sb -F 4 ${i}_cR.ph.sam  > ${i}_cR.ph.mapped.bam
+ 	rm ${i}_cR.ph.sam
+    echo "Done ${s}"
+done
+
+for i in *_ph.mapped.bam
+do
+	echo "$i"
+	samtools view -F 0x40 $i | cut -f1 | sort | uniq | wc -l
+done > stats_crAssphage.txt
+
+cat <<EOF >> stats_crAssphage.txt
+
+
+## FLAGSTAT ##
+
+
+EOF
+
+for i in *_ph.mapped.bam
+do
+	echo "#### $i ####"
+	samtools flagstat $i
+	echo ">>>>>>>>>>"
+done >> stats_crAssphage.txt
+
+### Versus all phages
+
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/Viruses/all.fna.tar.gz
+tar -zxvf all.fna.tar.gz
+mkdir phages
+
+find . -name '*hage*' -type d -execdir mv {} phages \;
+cd phages
+
+find . -iname "*fna" -exec ln -s {} . \;
+
+cat *fna | perl -pe 's/ref/\#/g; s/\|//g' | perl -pe 's/gi[0-9]{9}//g; s/\..*[0-9]\ /\_/g; s/\ /\_/g; s/\,\_complete\_genome//g; s/\#//g'  > all_phages.fna
+
+ls -ltrh | grep ^l  | cut -d\> -f2 | sed 's/\ \.\///g; s/\//\t/g; s/\.fna//g' | awk -F'\t' '{ print $2, $1}' > phages_names_list
+
+bwa index -a bwtsw all_phages.fa
+
+END
+
+samples="norm01 norm02 norm03 norm04 norm05 norm06 norm07 norm08 norm09 norm10 obese01 obese02 obese03 obese04 obese05 obese06 obese07 obese08 obese09 obese10"
+for i in ${samples}
+do
+	echo "gapped/ungapped alignment for ${i}"
+	bwa aln -t 8 phages2.fna ${i}\.ts.hg19.1.fastq  > ${i}\.1.ph.sai
+	bwa aln -t 8 phages2.fna ${i}\.ts.hg19.2.fastq  > ${i}\.2.ph.sai
+
+	echo "Generate pair-end alignment for ${i}"
+	bwa sampe phages2.fna ${i}.1.ph.sai ${i}.2.ph.sai ${i}.ts.hg19.1.fastq ${i}.ts.hg19.2.fastq > ${i}_ph.sam
+
+	echo "SAM2mappedBAM"
+	samtools view -Sb -F 4 ${i}_ph.sam  > ${i}_ph.mapped.bam
+	rm ${i}_ph.sam
+	echo "Done ${s}"
+done
+
+for i in *_ph.mapped.bam
+do
+	echo "$i"
+	samtools view -F 0x40 $i | cut -f1 | sort | uniq | wc -l
+done > stats_phages.txt
+
+cat <<EOF >> stats_phages.txt
+
+
+## FLAGSTAT ##
+
+
+EOF
+
+for i in *_ph.mapped.bam
+do
+	echo "#### $i ####"
+	samtools flagstat $i
+	echo ">>>>>>>>>>"
+done >> stats_phages.txt
