@@ -2,13 +2,12 @@
 """
 FASTQ to FASTA 02
 """
-
 import sys, os
 import screed
 
 def main():
     if len(sys.argv) != 3:
-        print >> sys.stderr, 'Usage: python %s <input.fastq> <output.fna>'\
+        print >> sys.stderr, 'Usage: python %s <input.fastq> <output.fna>' \
                  %(os.path.basename(sys.argv[0]))
         sys.exit(1)
 
@@ -21,7 +20,6 @@ def main():
         seq = record['sequence']
         print >> wrfile, '>%s\n%s' %(name, seq)
 
-    #print (n+1), 'fasta seqs written'
     wrfile.close()
 
 if __name__ == '__main__':
