@@ -34,7 +34,6 @@ def get_runs(sample):
 
 
 def get_url(run):
-    # ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/ERR/ERR006/ERR006600/ERR006600.sra
     url_template = 'ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/{leading3}/{leading6}/{all}/{all}.sra'
     return url_template.format(leading3=run[:3], leading6=run[:6], all=run)
 

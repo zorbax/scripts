@@ -4,7 +4,7 @@ from Bio import SeqIO
 from itertools import count
 import sys
 
-fake_header = "M12345:001:00000000-AAAAA:{n}:{n:05}:{n:05}:{n:04} {r}:N:0:AATTGGCC+AATTGGCC"
+fake_header = "NS500502:001:HT3KMBGXY:{n}:{n:05}:{n:05}:{n:04} {r}:N:0:CTGAAGCT+AGGATAGG"
 
 with open(sys.argv[1], 'r') as forward:
     with open(sys.argv[2], 'r') as reverse:
@@ -18,4 +18,4 @@ with open(sys.argv[1], 'r') as forward:
             rv.id = rv.name = fake_header.format(n=ind, r=2)
             fr.description = rv.description = ''
             SeqIO.write(fr, fw, 'fastq')
-            SeqIO.write(rv, rw, 'fastq')  
+            SeqIO.write(rv, rw, 'fastq')
