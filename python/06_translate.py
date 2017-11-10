@@ -53,5 +53,5 @@ for x in result:
 #with open('test.txt', 'a') as output:
 with open(sys.argv[3], 'a') as output:
     for k, v in sorted(super_dict.items()):
-        #print(k, '\t' , ', '.join(v)) #category by gene
-        print(k, '\t' , ', '.join(sorted(set(v))), file=output) #only unique categories
+        #print(k + '\t' + ', '.join(v)) #category by gene
+        print(k + '\t' + ', '.join(sorted(set(v))), file=output) #only unique categories
