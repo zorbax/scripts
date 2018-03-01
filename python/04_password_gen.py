@@ -10,7 +10,7 @@ def main():
 
 	def genpsswd():
 		alpha = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		psswd = "senasica"
+		psswd = "Senasica"
 
 		for i in range(3):
 			index = random.randrange(len(alpha))
