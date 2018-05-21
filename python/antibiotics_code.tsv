@@ -1,3 +1,4 @@
+Categoría	Gen
 Aminoglucósidos	Aac
 Aminoglucósidos	Aac2-Ia
 Aminoglucósidos	Aac2-Ib
@@ -156,12 +157,12 @@ Aminoglucósidos	APH-Stph
 Aminoglucósidos	aph3-Ic
 Aminoglucósidos	aph3-Ib
 Aminoglucósidos	aph6-Id
-Betalactámicos	AMPH_Ecoli
+Betalactámicos	AMPH
 Betalactámicos	PBP1a
 Betalactámicos	PBP1b
 Betalactámicos	Penicillin_Binding_Protein_Ecoli
-Betalactámicos	AmpC1_Ecoli
-Betalactámicos	AmpC2_Ecoli
+Betalactámicos	AmpC1
+Betalactámicos	AmpC2
 Betalactámicos	Nps1
 Betalactámicos	AmpH
 Betalactámicos	AmpS
@@ -1738,7 +1739,6 @@ Tetraciclinas	Tet-42
 Tetraciclinas	Tet-43
 Tetraciclinas	Tet-44
 Tetraciclinas	TetR
-Tetraciclinas	TetRG	
 Tetraciclinas	TetA
 Tetraciclinas	TetB
 Tetraciclinas	TetC

@@ -2,7 +2,8 @@
 '''
 FASTQ to FASTA 02
 '''
-import sys, os
+import sys
+import os
 import screed
 
 '''
@@ -27,10 +28,12 @@ if __name__ == '__main__':
     main()
 '''
 
+
 def main():
     if len(sys.argv) != 3:
-        print('This script use Python3\nUsage: ./%s <input.fastq> <output.fna>' \
-                                % os.path.basename(sys.argv[0]), file=sys.stderr)
+        print(
+            '\nUsage: ./%s <input.fastq> <output.fna>'
+            % os.path.basename(sys.argv[0]), file=sys.stderr)
         sys.exit(1)
 
     with screed.open(sys.argv[1]) as infile:
@@ -38,7 +41,8 @@ def main():
             for i, record in enumerate(infile):
                 name = record['name']
                 seq = record['sequence']
-                outfile.write('>%s\n%s\n' %(name, seq))
+                outfile.write('>%s\n%s\n' % (name, seq))
+
 
 if __name__ == '__main__':
     main()
