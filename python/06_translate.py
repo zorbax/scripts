@@ -11,13 +11,15 @@ import wget
 def main():
 
     parser = argparse.ArgumentParser(
-        usage='translate.py srst2_argannot.tsv output_translated.tsv\n\n
-        This script translate the srst2_argannot.tsv table to an antibiotic
-        category.')
+        usage='translate.py srst2_argannot.tsv output_translated.tsv',
+        description="This script translate the srst2_argannot.tsv table \
+                     to an antibiotic category")
     parser.add_argument(
                     "[1] srst2_argannot.tsv", help="srst2_argannot.tsv file")
     parser.add_argument(
                     "[2] output_translated.tsv", help="output file translated")
+    parser.add_argument("-freq", action="store_true",
+                        help="Translate without uniqueness ")
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -35,7 +37,7 @@ def main():
         wget.download(url, str(argannot))
 
     code = {}
-    with open(str(argannot), 'r') as code_table:
+    with open(str(argannot), 'r', encoding='utf-8') as code_table:
         for i in csv.reader(code_table, delimiter='\t'):
             code[i[1]] = i[0]
     # print(code)
@@ -72,12 +74,12 @@ def main():
 
     # print(super_dict)
 
-    with open(sys.argv[2], 'a') as output:
+    with open(sys.argv[2], 'a', encoding='utf-8') as output:
         for k, v in sorted(super_dict.items()):
-            # category by gene
-            # print(k + '\t' + ', '.join(v), file=output)
-            # only unique categories
-            print(k + '\t' + ', '.join(sorted(set(v))), file=output)
+            if args.freq:
+                print(k + '\t' + ', '.join(v), file=output)
+            else:
+                print(k + '\t' + ', '.join(sorted(set(v))), file=output)
 
 
 if __name__ == '__main__':
