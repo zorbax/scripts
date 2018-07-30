@@ -28,7 +28,7 @@ def main():
     args = parser.parse_args()
 
     argannot = Path(os.path.join(
-                        os.path.expanduser('~'), "bin/antibiotics_code.tsv"))
+                    os.path.expanduser('~'), "bin/antibiotics_code.tsv"))
     try:
         arg_path = argannot.resolve()
         # print(arg_path)
