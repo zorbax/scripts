@@ -9,9 +9,8 @@ show_menu(){
     echo -e "${menu}*********************************************${normal}"
     echo -e "${menu}**${number} 1)${menu} Mount Drei ${normal}"
     echo -e "${menu}**${number} 2)${menu} Mount Zwei ${normal}"
-    echo -e "${menu}**${number} 3)${menu} Restart Apache ${normal}"
-    echo -e "${menu}**${number} 4)${menu} Freedom ${normal}"
-#   echo -e "${menu}**${number} 5)${menu} ${normal}"
+    echo -e "${menu}**${number} 3)${menu} Freedom ${normal}"
+#   echo -e "${menu}**${number} 4)${menu} ${normal}"
     echo -e "${menu}*********************************************${normal}"
     echo -e "${enter_line}Please enter a menu option and enter or ${red_text}enter to exit. ${normal}"
     read opt
@@ -34,27 +33,21 @@ while [ opt != '' ]
         case $opt in
         1) clear;
         	option_picked "Option 1 Picked";
-        	su -c 'mount /dev/sdb1 /media/drjaime/Drei'; 
+        	su -c 'mount /dev/sdc1 /mnt/disk1/'; 
         menu;
         ;;
 
         2) clear;
             option_picked "Option 2 Picked";
-            su -c 'mount /dev/sde1 /media/drjaime/Zwei'; #The NTFS drive
+            su -c 'mount /dev/sdd1 /mnt/disk2/';
         menu;
-            ;;
+        ;;
 
         3) clear;
             option_picked "Option 3 Picked";
-	        su -c 'service apache2 restart';
-            show_menu;
-            ;;
-
-        4) clear;
-            option_picked "Option 4 Picked";
-        	su -c "free && sync && echo 3 > /proc/sys/vm/drop_caches && free";
-            show_menu;
-            ;;
+            su -c "free && sync && echo 3 > /proc/sys/vm/drop_caches && free";
+        menu;
+        ;;
 
         x)exit;
         ;;

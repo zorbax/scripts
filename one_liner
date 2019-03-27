@@ -1,3 +1,0 @@
-#!/bin/bash
-perl -pe 'if(/\>/){s/\n/\t/}; s/\n//; s/\>/\n\>/' $1 | perl -pe 's/\t/\n/' | tail -n+2 > temp
-mv temp $1
