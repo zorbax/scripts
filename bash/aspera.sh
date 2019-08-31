@@ -1,5 +1,10 @@
 #!/bin/bash
-XRR_file=$1
+
+if [ -f "$1" ]; then
+  XRR_file=$(cat $1)
+else
+  XRR_file=$@
+fi
 
 base_url=anonftp@ftp.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByRun/sra
 key="$HOME/.aspera/connect/etc/asperaweb_id_dsa.openssh"
