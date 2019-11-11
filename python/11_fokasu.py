@@ -3,16 +3,17 @@
 import sys
 import os
 import time
+import signal
 import contextlib
 
 with contextlib.redirect_stdout(None):
-	from pygame import mixer
+    from pygame import mixer
 
 
 def main(args):
     if len(args[1:]) != 2:
-       print("\nUsage : %s work_time rest_time\n" % args[0])
-       return -1
+        print("\nUsage : %s work_time rest_time\n" % args[0])
+        return -1
 
     def countdown(t, alarm):
         while t >= 0:
@@ -24,14 +25,22 @@ def main(args):
 
         mixer.init()
         mixer.music.load(alarm)
-        mixer.music.set_volume(0.6)
+        mixer.music.set_volume(0.25)
         mixer.music.play(-1)
+
+        def handler(signum, frame):
+            print("Timeout for %s" % args[0])
+            sys.exit()
+
+        signal.signal(signal.SIGALRM, handler)
+        signal.alarm(240)
+
         try:
             input("")
         except SyntaxError:
             pass
         mixer.music.stop()
-
+        signal.alarm(0)
 
     twork, trest = args[1:]
     pwd = os.path.dirname(__file__)
@@ -56,7 +65,6 @@ def main(args):
             countdown(int(twork) * 60, nap)
         count += 1
 
+
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
-
-
