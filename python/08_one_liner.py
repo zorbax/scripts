@@ -25,5 +25,3 @@ with open(output_file, "w") as fasta:
         header += "\n"
         seq = seq.replace("\n", "") + "\n"
         fasta.write(header + seq)
-
-fasta.close()
