@@ -3,6 +3,7 @@
 import sys
 import os
 
+
 def main():
 
     if len(sys.argv) != 2:
@@ -28,6 +29,7 @@ def main():
         print('Total      >%10.2f' % end)
 
     sat(int(sys.argv[1]))
+
 
 if __name__ == '__main__':
     main()

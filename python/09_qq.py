@@ -7,7 +7,8 @@ import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 
-def plot(data, cdf = stats.norm.cdf):
+
+def plot(data, cdf=stats.norm.cdf):
     plt.figure()
     plt.plot(np.cumsum(1./len(data) * np.ones(data.shape)),
              cdf(np.sort(data)), 'bx', marker='o')
@@ -25,4 +26,3 @@ seed(1)
 data = randn(100)
 
 plot(data)
-

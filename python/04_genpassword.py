@@ -12,11 +12,11 @@ def main():
                                            sys.argv[0]), file=sys.stderr)
         sys.exit(1)
 
-    def random_password(length = 4):
+    def random_password(length=4):
         prefix = "S3nasica"
         code = string.ascii_letters + string.digits[1:]
         rndn = ''.join(random.choice(code) for i in range(length))
- 
+
         while not any(char.isdigit() for char in rndn):
             rndn = ''.join(random.choice(code) for i in range(length))
 
