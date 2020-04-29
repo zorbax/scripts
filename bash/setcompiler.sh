@@ -1,22 +1,25 @@
 #!/bin/bash
 usage() {
-  echo
-  echo Sets the default version of gcc, g++, etc
-  echo Usage:
-  echo
-  echo "set-compiler <VERSION>"
-  echo
+    cat << EOF
+
+    Sets the default version of gcc, g++, etc
+
+    Usage:
+        set-compiler <VERSION>
+        set-compiler gcc-4.7
+
+EOF
   exit
 }
 
 cd /usr/bin
 
-if [ -z $1 ] ; then
+if [[ -z $1 ]] ; then
   usage;
 fi
 
 set_default() {
-  if [ -e "$1-$2" ] ; then
+  if [[ -e "$1-$2" ]] ; then
     echo $1-$2 is now the default
     sudo ln -sf $1-$2 $1
   else

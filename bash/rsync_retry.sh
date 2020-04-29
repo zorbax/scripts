@@ -8,12 +8,12 @@ i=0
 
 false
 
-while [ $? -ne 0 -a $i -lt $retries ]
+while [[ $? -ne 0 && ${i} -lt ${retries} ]]
 do
-  i=$(( $i + 1 ))
-  rsync -aPvz $start $end
+    i=$(( $i + 1 ))
+    rsync -aPvz ${start} ${end}
 done
 
-if [ $i -eq $retries ]; then
-  echo "Hit maximum number of retries, giving up."
+if [[ ${i} -eq ${retries} ]]; then
+    echo "Hit maximum number of retries, giving up."
 fi

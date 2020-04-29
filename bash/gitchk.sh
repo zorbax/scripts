@@ -21,7 +21,7 @@ do
   }
 
   git status -s | grep -v '??' &> /dev/null || {
-	   if [ ${verbose} -ne 0 ]; then
+	   if [[ ${verbose} -ne 0 ]]; then
        echo "Nothing to do for ${dir}"
      fi
 	   let count_unchanged=${count_unchanged}+1
