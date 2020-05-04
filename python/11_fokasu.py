@@ -53,11 +53,11 @@ def main(args):
         clock = time.strftime("%H:%M")
         if count == 1:
             os.system('clear')
-            print("\n\nStart To Work!: %s" % clock)
+            print("\n\nWorking!: %s" % clock)
             countdown(int(twork) * 60, nap)
         elif count % 2 == 0:
             os.system('clear')
-            print("\n\nTake A Break!: %s" % clock)
+            print("\n\nBreak!: %s" % clock)
             countdown(int(trest) * 60, work)
         else:
             os.system('clear')
