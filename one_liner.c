@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 		if (line[0] == '>') {
 			if (state == 1)
 				printf("\n");
-			printf("%s: ", line+1);
+			printf("%s", line+1);
 			state = 1;
 		} else {
 			/* Print everything else */
