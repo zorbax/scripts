@@ -1,4 +1,4 @@
 #!/bin/bash
 tmpfile=$(mktemp $PWD/XXXX)
-perl -pe 'if(/\>/){s/\n/\t/}; s/\n//; s/\>/\n\>/' $1 | \
-         perl -pe 's/\t/\n/' | tail -n+2 > ${tmpfile} && mv ${tmpfile} $1
+awk '/^>/ {printf("%s%s\t",(N>0?"\n":""),$0);N++;next;} \
+    {printf("%s",$0);} END {printf("\n");}' < $1 > ${tmpfile} && mv ${tmpfile} $1
