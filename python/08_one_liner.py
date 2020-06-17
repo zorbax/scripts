@@ -3,14 +3,14 @@ import sys
 import re
 
 
-def argsCheck(numArgs):
+def argscheck(numargs):
     if len(sys.argv) != numArgs:
         print("Convert multiline FASTA to single line FASTA\n")
         print("Usage: " + sys.argv[0] + " [sequence.fasta]")
         exit(1)
 
 
-argsCheck(2)
+argscheck(2)
 
 input_file = sys.argv[1]
 output_file = input_file
