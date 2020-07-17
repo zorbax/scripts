@@ -5,14 +5,12 @@ import os
 
 
 def main():
-
     if len(sys.argv) != 2:
         print('\nUsage: ./%s mount\n' % os.path.basename(
-                                           sys.argv[0]), file=sys.stderr)
+            sys.argv[0]), file=sys.stderr)
         sys.exit(1)
 
     def sat(mount):
-
         factor = 1 + 0.16 - 0.10 - 0.16 * 2 / 3
         init = mount / factor
         iva = init * 0.16
