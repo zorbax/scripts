@@ -5,7 +5,6 @@ import os
 import time
 import signal
 import contextlib
-
 with contextlib.redirect_stdout(None):
     from pygame import mixer
 
