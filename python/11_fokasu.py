@@ -10,9 +10,13 @@ with contextlib.redirect_stdout(None):
 
 
 def main(args):
-    if len(args[1:]) != 2:
+    if len(args[1:]) == 1:
         print("\nUsage : %s work_time rest_time\n" % args[0])
         return -1
+    elif len(args[1:]) == 0:
+        twork, trest = 52, 17
+    else:
+        twork, trest = args[1:]
 
     def countdown(t, alarm):
         while t >= 0:
@@ -41,7 +45,6 @@ def main(args):
         mixer.music.stop()
         signal.alarm(0)
 
-    twork, trest = args[1:]
     pwd = os.path.dirname(__file__)
     work = os.path.join(pwd, "sounds/chip.mp3")
     nap = os.path.join(pwd, "sounds/alarm.mp3")
