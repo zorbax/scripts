@@ -8,6 +8,10 @@ import contextlib
 with contextlib.redirect_stdout(None):
     from pygame import mixer
 
+# brew install SDL
+# brew install SDL2
+# brew install leveldb
+
 
 def main(args):
     if len(args[1:]) == 1:
