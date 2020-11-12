@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 def plot(data, cdf=stats.norm.cdf):
     plt.figure()
-    plt.plot(np.cumsum(1./len(data) * np.ones(data.shape)),
+    plt.plot(np.cumsum(1. / len(data) * np.ones(data.shape)),
              cdf(np.sort(data)), 'bx', marker='o')
     plt.plot((0, 1), (0, 1), 'r-')
 

@@ -39,7 +39,7 @@ def main():
                Save in one_line fasta format"""
             for record in SeqIO.parse(infile, "fastq"):
                 sequence = str(record.seq)
-                outfile.write('>'+record.id+'\n'+sequence+'\n')
+                outfile.write('>' + record.id + '\n' + sequence + '\n')
 
 
 if __name__ == '__main__':
