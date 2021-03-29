@@ -4,7 +4,7 @@ import re
 
 
 def argscheck(numargs):
-    if len(sys.argv) != numArgs:
+    if len(sys.argv) != numargs:
         print("Convert multiline FASTA to single line FASTA\n")
         print("Usage: " + sys.argv[0] + " [sequence.fasta]")
         exit(1)
