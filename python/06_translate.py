@@ -4,7 +4,6 @@ from pathlib import Path
 import argparse
 import sys
 import csv
-import os
 import wget
 
 
@@ -14,10 +13,8 @@ def main():
         usage='translate.py srst2_argannot.tsv output_translated.tsv',
         description="This script translate the srst2_argannot.tsv table \
                      to an antibiotic category")
-    parser.add_argument(
-                    "[1] srst2_argannot.tsv", help="srst2_argannot.tsv file")
-    parser.add_argument(
-                    "[2] output_translated.tsv", help="output file translated")
+    parser.add_argument("[1] srst2_argannot.tsv", help="srst2_argannot.tsv file")
+    parser.add_argument("[2] output_translated.tsv", help="output file translated")
     parser.add_argument("-freq", action="store_true",
                         help="Translate without uniqueness ")
 
@@ -27,8 +24,7 @@ def main():
 
     args = parser.parse_args()
 
-    argannot = Path(os.path.join(
-                    os.path.expanduser('~'), "bin/antibiotics_code.tsv"))
+    argannot = Path(Path.home() / "bin/antibiotics_code.tsv")
     try:
         arg_path = argannot.resolve()
         # print(arg_path)

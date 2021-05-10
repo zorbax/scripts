@@ -1,39 +1,15 @@
-#! /usr/bin/python
-'''
-FASTQ to FASTA 02
-'''
+#! /usr/bin/env python3
+
 import sys
 import os
 import screed
 
-'''
-def main():
-    if len(sys.argv) != 3:
-        print >> sys.stderr, 'Usage: python %s <input.fastq> <output.fna>' \
-                 %(os.path.basename(sys.argv[0]))
-        sys.exit(1)
-
-    infile = sys.argv[1]
-    outfile = sys.argv[2]
-    wrfile = open(outfile, 'wb')
-
-    for i, record in enumerate(screed.open(infile)):
-        name = record['name']
-        seq = record['sequence']
-        print >> wrfile, '>%s\n%s' %(name, seq)
-
-    wrfile.close()
-
-if __name__ == '__main__':
-    main()
-'''
-
 
 def main():
     if len(sys.argv) != 3:
-        print(
-            '\nUsage: ./%s <input.fastq> <output.fna>'
-            % os.path.basename(sys.argv[0]), file=sys.stderr)
+        basename = os.path.basename(sys.argv[0])
+        print(f"\nUsage: ./{basename} <input.fastq> <output.fna>\n",
+              file=sys.stderr)
         sys.exit(1)
 
     with screed.open(sys.argv[1]) as infile:

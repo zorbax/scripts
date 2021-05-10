@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import os
 import sys
 import subprocess
@@ -6,8 +6,8 @@ import subprocess
 
 def main():
     if len(sys.argv) != 2:
-        print('\nUsage: ./%s <srr_ids.txt>'
-              % os.path.basename(sys.argv[0]), file=sys.stderr)
+        print(f"\nUsage: ./{os.path.basename(sys.argv[0])} <srr_ids.txt>\n",
+              file=sys.stderr)
         sys.exit(1)
 
     with open(sys.argv[1], 'r') as srr_id:
