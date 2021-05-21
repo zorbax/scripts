@@ -36,7 +36,7 @@ def main(args):
         mixer.music.play(-1)
 
         def handler(signum, frame):
-            print("Timeout for %s" % args[0])
+            print("Timeout for %s" % os.path.basename(args[0]))
             sys.exit()
 
         signal.signal(signal.SIGALRM, handler)
