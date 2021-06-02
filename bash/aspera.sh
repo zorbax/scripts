@@ -1,34 +1,32 @@
 #!/bin/bash
 
 if [ -f "$1" ]; then
-  XRR_file=$(cat $1)
+    XRR_file=$(cat $1)
 else
-  XRR_file=( "$@" )
+    XRR_file=( "$@" )
 fi
 
 base_url=anonftp@ftp.ncbi.nlm.nih.gov:/sra/sra-instant/reads/ByRun/sra
 key="$HOME/.aspera/connect/etc/asperaweb_id_dsa.openssh"
 
-while read i
+while read -r i
 do
-  srr_prefix=${i:0:6}
-  xrr=${i:0:3}
-  fasp_url=${base_url}/${xrr}/${srr_prefix}/${i}/${i}.sra
+    srr_prefix=${i:0:6}
+    xrr=${i:0:3}
+    fasp_url=${base_url}/${xrr}/${srr_prefix}/${i}/${i}.sra
 
-  bw_mbps_limit=80
-  #ascp -i ${key} -k1 -QTr -l${bw_mbps_limit}m \
-  #      ${base-url}/${i:0:3}/${i:0:6}/${i%.sra}/${i} .
+    bw_mbps_limit=80
 
-  if [[ ! -e ${i%.sra}.aspx && ! -e ${i%.sra}.fastq.gz ]]; then
-    echo "${i}.sra already exists, skip..."
-    echo "SRA > FASTQ"
-    fastq-dump --split-files --readids --defline-seq '@$ac.$si/$ri' \
+    if [[ ! -e ${i%.sra}.aspx && ! -e ${i%.sra}.fastq.gz ]]; then
+        echo "${i}.sra already exists, skip..."
+        echo "SRA > FASTQ"
+        fastq-dump --split-files --readids --defline-seq '@$ac.$si/$ri' \
                  --defline-qual '+' --gzip ${i}.sra
-  else
-    echo "Downloading ${i}"
-    ascp -i ${key} -k3 -T -l${bw_mbps_limit}m -m1k --policy=fair ${fasp_url} .
-    echo "SRA > FASTQ"
-    fastq-dump --split-files --readids --defline-seq '@$ac.$si/$ri' \
+    else
+        echo "Downloading ${i}"
+        ascp -i ${key} -k3 -T -l${bw_mbps_limit}m -m1k --policy=fair ${fasp_url} .
+        echo "SRA > FASTQ"
+        fastq-dump --split-files --readids --defline-seq '@$ac.$si/$ri' \
                --defline-qual '+' --gzip ${i}.sra
-  fi
+    fi
 done < "${XRR_file[@]}"
