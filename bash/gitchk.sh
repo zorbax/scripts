@@ -1,34 +1,33 @@
 #!/bin/bash
 
-let count_all=0
-let count_changed=0
-let count_unchanged=0
+((count_all=0))
+((count_changed=0))
+((count_unchanged=0))
+((verbose=0))
 
-let verbose=0
-
-for repo in $(find . -type d -name ".git")
+while IFS= read -r -d '' repo
 do
-  let count_all=${count_all}+1
+    ((count_all=count_all+1))
 
-  dir=$(echo ${repo} | sed -e 's/\/.git/\//')
-  cd ${dir}
+    dir=$(echo ${repo} | sed -e 's/\/.git/\//')
+    cd ${dir} || exit
 
-  git status -s | grep -v '??' &> /dev/null && {
-	  echo -e "\n\n \E[1;31m ${dir}\E[0m"
-    git branch -vvra
-	  git status -s | grep -v '??'
-	  let count_changed=${count_changed}+1
-  }
+    git status -s | grep -v '??' &> /dev/null && {
+	    echo -e "\n\n \E[1;31m ${dir}\E[0m"
+        git branch -vvra
+	    git status -s | grep -v '??'
+	    ((count_changed=count_changed+1))
+    }
 
-  git status -s | grep -v '??' &> /dev/null || {
-	   if [[ ${verbose} -ne 0 ]]; then
-       echo "Nothing to do for ${dir}"
-     fi
-	   let count_unchanged=${count_unchanged}+1
-  }
+    git status -s | grep -v '??' &> /dev/null || {
+	    if [[ ${verbose} -ne 0 ]]; then
+            echo "Nothing to do for ${dir}"
+        fi
+	    ((count_unchanged=count_unchanged+1))
+    }
 
-  cd - &> /dev/null
-done
+    cd - &> /dev/null || exit
+done < <(find . -type d -name ".git")
 
 echo -ne "\n\n${count_all} git repositories found: "
 echo -ne "${count_changed} have changes, "
