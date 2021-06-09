@@ -1,16 +1,23 @@
 #!/usr/bin/env bash
 
-command=$1
-logfile=$2
+script="$1"
+log=$2
 
-if [[ "$logfile" == "" ]]; then
-  logfile="/dev/null"
+if [[ "$log" == "" ]]; then
+    log="/dev/null"
 fi
 
-export command
+export script
 
-nohup bash -c 'START=$(date +%s) && echo "START TIME: $(date +%T)" && \
-      if [[ -x "$command" ]]; then $command; else chmod +x $command && $command; fi && \
-      END=$(date +%s) && DIFF=$(( $END - $START )) && \
-      echo "RUN TIME = $(( $DIFF / 60 )) min. and $(( $DIFF % 60 )) secs."' \
-      > ${logfile} 2>&1 & echo $! > $PWD/run.pid
+nohup bash -c "$(cat <<EOF
+    echo "Start time: $(date +%T)"
+
+    if [[ -x "${script}" ]]; then
+        ./${script}
+    else
+        chmod +x ${script} && ./${script}
+    fi
+
+    echo "End time: $(date +%s)"
+EOF
+)" 2> ${log}.err > ${log}.out < /dev/null & echo $! > ${log}.pid
