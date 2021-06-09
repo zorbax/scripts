@@ -12,22 +12,22 @@ EOF
   exit
 }
 
-cd /usr/bin
+cd /usr/bin || exit
 
 if [[ -z $1 ]] ; then
-  usage;
+    usage;
 fi
 
 set_default() {
-  if [[ -e "$1-$2" ]] ; then
-    echo $1-$2 is now the default
-    sudo ln -sf $1-$2 $1
-  else
-    echo $1-$2 is not installed
-  fi
+    if [[ -e "$1-$2" ]] ; then
+        echo $1-$2 is now the default
+        sudo ln -sf $1-$2 $1
+    else
+        echo $1-$2 is not installed
+    fi
 }
 
 for i in gcc cpp g++ gcov gccbug
 do
-  set_default $i $1
+    set_default $i $1
 done
