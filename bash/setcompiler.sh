@@ -20,10 +20,10 @@ fi
 
 set_default() {
     if [[ -e "$1-$2" ]] ; then
-        echo $1-$2 is now the default
+        echo "$1-$2 is now the default"
         sudo ln -sf $1-$2 $1
     else
-        echo $1-$2 is not installed
+        echo "$1-$2 is not installed"
     fi
 }
 
