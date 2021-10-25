@@ -12,7 +12,10 @@ EOF
   exit
 }
 
-cd /usr/bin || exit
+# linux
+# cd /usr/bin || exit
+# macos + brew
+cd /usr/local/bin || exit
 
 if [[ -z $1 ]] ; then
     usage;
