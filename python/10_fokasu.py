@@ -1,10 +1,11 @@
-#!/opt/miniconda3/bin/python
+#!/usr/bin/env python3
 
-import sys
-import os
-import time
-import signal
 import contextlib
+import os
+import signal
+import sys
+import time
+
 with contextlib.redirect_stdout(None):
     from pygame import mixer
 
@@ -15,8 +16,7 @@ with contextlib.redirect_stdout(None):
 
 def main(args):
     if len(args[1:]) == 1:
-        print("\nUsage : %s work_time rest_time\n" % args[0])
-        return -1
+        print(f"\nUsage : {os.path.basename(args[0])} work_time rest_time\n")
     elif len(args[1:]) == 0:
         twork, trest = 52, 17
     else:
@@ -25,8 +25,8 @@ def main(args):
     def countdown(t, alarm):
         while t >= 0:
             mins, secs = divmod(t, 60)
-            timeformat = '{:02d}:{:02d}'.format(mins, secs)
-            print(" > " + timeformat, end='\r')
+            timeformat = f"{mins:02d}:{secs:02d}"
+            print(" > " + timeformat, end="\r")
             time.sleep(1)
             t -= 1
 
@@ -35,8 +35,8 @@ def main(args):
         mixer.music.set_volume(0.25)
         mixer.music.play(-1)
 
-        def handler(signum, frame):
-            print("Timeout for %s" % os.path.basename(args[0]))
+        def handler():
+            print(f"Timeout for {os.path.basename(args[0])}")
             sys.exit()
 
         signal.signal(signal.SIGALRM, handler)
@@ -58,19 +58,19 @@ def main(args):
     while True:
         clock = time.strftime("%H:%M")
         if count == 1:
-            os.system('clear')
-            print("\n\nWorking!: %s" % clock)
+            os.system("clear")
+            print(f"\n\nWorking!: {clock}")
             countdown(int(twork) * 60, nap)
         elif count % 2 == 0:
-            os.system('clear')
-            print("\n\nBreak!: %s" % clock)
+            os.system("clear")
+            print(f"\n\nBreak!: {clock}")
             countdown(int(trest) * 60, work)
         else:
-            os.system('clear')
-            print("\n\nBack To Work!: %s" % clock)
+            os.system("clear")
+            print(f"\n\nBack To Work!: {clock}")
             countdown(int(twork) * 60, nap)
         count += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv))
