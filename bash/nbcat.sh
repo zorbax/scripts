@@ -24,4 +24,4 @@ if [ ! -f "$1" ]; then
     exit $EX_NOINPUT
 fi
 
-jupyter nbconvert --stdout --to markdown "$1" 2>/dev/null | pygmentize -l md | less -S
+jupyter nbconvert --stdout --to markdown "$1" 2>/dev/null | tail -n+2 | pygmentize -l python
