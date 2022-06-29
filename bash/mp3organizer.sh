@@ -52,10 +52,14 @@ cd $working_dir || exit
 for F in ./*
 do
     if [ -f "$F" ];then
-        artist=$(mminfo "$F"|grep artist|awk -F: '{print $2}'|sed 's/^ *//g'|sed 's/[^a-zA-Z0-9\ \-\_]//g')
-        title=$(mminfo "$F"|grep title|awk -F: '{print $2}'|sed 's/^ *//g'|sed 's/[^a-zA-Z0-9\ \-\_]//g')
-        album=$(mminfo "$F"|grep album|awk -F: '{print $2}'|sed 's/^ *//g'|sed 's/[^a-zA-Z0-9\ \-\_]//g')
-        trackno=$(mminfo "$F"|grep trackno|awk -F: '{print $2}'|sed 's/^ *//g'| awk '{printf "%02d\n", $1;}')
+        artist=$(mminfo "$F" | grep artist | awk -F: '{print $2}' | \
+                    sed 's/^ *//g' | sed 's/[^a-zA-Z0-9\ \-\_]//g')
+        title=$(mminfo "$F" | grep title | awk -F: '{print $2}' | \
+                sed 's/^ *//g' | sed 's/[^a-zA-Z0-9\ \-\_]//g')
+        album=$(mminfo "$F" | grep album | awk -F: '{print $2}' | \
+                sed 's/^ *//g' | sed 's/[^a-zA-Z0-9\ \-\_]//g')
+        trackno=$(mminfo "$F" | grep trackno | awk -F: '{print $2}' | \
+                  sed 's/^ *//g' | awk '{printf "%02d\n", $1;}')
 
         echo "============================"
         echo "artist:" $artist

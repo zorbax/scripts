@@ -10,7 +10,7 @@ false
 
 while [[ $? -ne 0 && ${i} -lt ${retries} ]]
 do
-    i=$(( $i + 1 ))
+    i=$(( i + 1 ))
     rsync -aPvz ${start} ${end}
 done
 

@@ -13,7 +13,7 @@ do
   esac
 done
 
-if [[ ! -z $iopt ]]; then
+if [[ -n $iopt ]]; then
 {
 	wd=$(pwd)
 	basename "$(test -L "$0" && readlink "$0" || echo "$0")" > /tmp/scriptname
@@ -22,7 +22,7 @@ if [[ ! -z $iopt ]]; then
 }
 fi
 
-if [[ ! -z $vopt ]]; then
+if [[ -n $vopt ]]; then
 {
 	echo -e "tecmint_monitor version 0.1\nDesigned by Tecmint.com\nReleased Under Apache 2.0 License"
 }
@@ -36,9 +36,9 @@ if [[ $# -eq 0 ]]; then
 	os=$(uname -o)
 	echo -e '\E[32m'"Operating System Type :" $tecreset $os
 
-	cat /etc/os-release | grep 'NAME\|VERSION' | grep -v 'VERSION_ID' | grep -v 'PRETTY_NAME' > /tmp/osrelease
-	echo -n -e '\E[32m'"OS Name :" $tecreset  && cat /tmp/osrelease | grep -v "VERSION" | grep -v CPE_NAME | cut -f2 -d\"
-	echo -n -e '\E[32m'"OS Version :" $tecreset && cat /tmp/osrelease | grep -v "NAME" | grep -v CT_VERSION | cut -f2 -d\"
+	grep 'NAME\|VERSION' /etc/os-release | grep -v 'VERSION_ID' | grep -v 'PRETTY_NAME' > /tmp/osrelease
+	echo -n -e '\E[32m'"OS Name :" $tecreset  && grep -v "VERSION" /tmp/osrelease | grep -v CPE_NAME | cut -f2 -d\"
+	echo -n -e '\E[32m'"OS Version :" $tecreset && grep -v "NAME" /tmp/osrelease | grep -v CT_VERSION | cut -f2 -d\"
 
 	architecture=$(uname -m)
 	echo -e '\E[32m'"Architecture :" $tecreset $architecture
@@ -54,7 +54,7 @@ if [[ $# -eq 0 ]]; then
 	externalip=$(curl -s ipecho.net/plain;echo)
 	echo -e '\E[32m'"External IP : $tecreset "$externalip
 
-	nameservers=$(cat /etc/resolv.conf | sed '1 d' | awk '{print $2}')
+	nameservers=$(sed '1 d' /etc/resolv.conf | awk '{print $2}')
 	echo -e '\E[32m'"Name Servers :" $tecreset $nameservers 
 
 	who>/tmp/who
@@ -62,9 +62,9 @@ if [[ $# -eq 0 ]]; then
 
 	free -h | grep -v + > /tmp/ramcache
 	echo -e '\E[32m'"Ram Usages :" $tecreset
-	cat /tmp/ramcache | grep -v "Swap"
+	grep -v "Swap" /tmp/ramcache
 	echo -e '\E[32m'"Swap Usages :" $tecreset
-	cat /tmp/ramcache | grep -v "Mem"
+	grep -v "Mem" /tmp/ramcache
 
 	df -h| grep 'Filesystem\|/dev/nvme*' > /tmp/diskusage
 	echo -e '\E[32m'"Disk Usages :" $tecreset 
@@ -82,4 +82,4 @@ if [[ $# -eq 0 ]]; then
 }
 fi
 
-shift $(($OPTIND -1))
+shift $((OPTIND -1))

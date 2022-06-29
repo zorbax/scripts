@@ -14,7 +14,7 @@ fi
 memfree=$(grep MemFree /proc/meminfo | awk '{ print $2 }')
 freemem=$(echo "$memfree/1024.0" | bc)
 
-if [ "$?" != "0" ]; then
+if [ ! ${freemem} ]; then
     echo "Something went wrong. Run again."
     exit 1
 fi
