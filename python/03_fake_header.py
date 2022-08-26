@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os
+from pathlib import Path
 import sys
 import gzip
 from Bio import SeqIO
@@ -13,8 +13,7 @@ fake_header = seqid + ":{n}:{n:05}:{n:05}:{n:04} {r}:N:0:CTGAAGCT+AGGATAGG"
 
 def main():
     if len(sys.argv) != 3:
-        basename = os.path.basename(sys.argv[0])
-        print(f"\nUsage: ./{basename} <forward.fastq.gz> <revers.fastq.gz>\n",
+        print(f"\nUsage: ./{Path(sys.argv[0]).name} <forward.fastq.gz> <revers.fastq.gz>\n",
               file=sys.stderr)
         sys.exit(1)
 

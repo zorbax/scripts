@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os
+from pathlib import Path
 import sys
 import re
 
@@ -11,7 +11,7 @@ def main():
     """
 
     if len(sys.argv) != 2:
-        print(f"\nUsage: ./{os.path.basename(sys.argv[0])} <sequence.fasta>\n",
+        print(f"\nUsage: {Path(sys.argv[0]).name} <sequence.fasta>\n",
               file=sys.stderr)
         sys.exit(1)
 

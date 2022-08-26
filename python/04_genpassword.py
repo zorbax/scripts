@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys
-import os
+from pathlib import Path
 import random
 import string
 
@@ -8,7 +8,7 @@ import string
 def main():
 
     if len(sys.argv) != 2:
-        print(f"\nUsage: ./{os.path.basename(sys.argv[0])} n_passwords\n",
+        print(f"\nUsage: {Path(sys.argv[0]).name} n_passwords\n",
               file=sys.stderr)
         sys.exit(1)
 

@@ -27,7 +27,6 @@ def main():
     argannot = Path(Path.home() / "bin/antibiotics_code.tsv")
     try:
         arg_path = argannot.resolve()
-        # print(arg_path)
     except FileNotFoundError:
         url = 'https://git.io/vpNpz'
         wget.download(url, str(argannot))
@@ -36,20 +35,11 @@ def main():
     with open(str(argannot), 'r', encoding='utf-8') as code_table:
         for i in csv.reader(code_table, delimiter='\t'):
             code[i[1]] = i[0]
-    # print(code)
 
     rsrt_results = {}
     with open(sys.argv[1], 'r') as argannotable:
         for k in csv.reader(argannotable, delimiter='\t'):
             rsrt_results[k[0]] = k[1:]
-
-    '''
-    for gene in sorted(code):
-       print(gene,':',code[gene])
-
-    for genes in sorted(rsrt_results):
-        print(genes,':',rsrt_results[genes])
-    '''
 
     result = []
     for ids in sorted(rsrt_results):
@@ -58,17 +48,12 @@ def main():
             for gene_id in sorted(code):
                 if genes == gene_id:
                     assignid[ids] = code[gene_id]
-            # print(assignid)
             result.append(assignid.copy())
-
-    # print(result)
 
     super_dict = {}
     for x in result:
         for k, v in x.items():
             super_dict.setdefault(k, []).append(v)
-
-    # print(super_dict)
 
     with open(sys.argv[2], 'a', encoding='utf-8') as output:
         for k, v in sorted(super_dict.items()):

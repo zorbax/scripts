@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-import os
+from pathlib import Path
 
 
 def sat(mount, kind='iva'):
@@ -35,7 +35,7 @@ def sat(mount, kind='iva'):
 
 def main():
     if len(sys.argv) < 2:
-        print(f"\nUsage: ./{os.path.basename(sys.argv[0])} amount ['iva', 'ret']\n",
+        print(f"\nUsage: ./{Path(sys.argv[0]).name} amount ['iva', 'ret']\n",
               file=sys.stderr)
         sys.exit(1)
     if len(sys.argv) < 3:
