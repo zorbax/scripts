@@ -4,30 +4,6 @@ clear
 
 unset tecreset os architecture kernelrelease internalip externalip nameserver loadaverage
 
-while getopts iv name
-do
-	case $name in
-  	i)iopt=1;;
-    v)vopt=1;;
-    *)echo "Invalid arg";;
-  esac
-done
-
-if [[ -n $iopt ]]; then
-{
-	wd=$(pwd)
-	basename "$(test -L "$0" && readlink "$0" || echo "$0")" > /tmp/scriptname
-	scriptname=$(echo -e -n $wd/ && cat /tmp/scriptname)
-	su -c "cp $scriptname /usr/bin/monitor" root && echo "Congratulations! Script Installed, now run monitor Command" || echo "Installation failed"
-}
-fi
-
-if [[ -n $vopt ]]; then
-{
-	echo -e "tecmint_monitor version 0.1\nDesigned by Tecmint.com\nReleased Under Apache 2.0 License"
-}
-fi
-
 if [[ $# -eq 0 ]]; then
 {
 	tecreset=$(tput sgr0)
@@ -51,7 +27,7 @@ if [[ $# -eq 0 ]]; then
 	internalip=$(hostname -I)
 	echo -e '\E[32m'"Internal IP :" $tecreset $internalip
 
-	externalip=$(curl -s ipecho.net/plain;echo)
+	externalip=$(curl -s ipecho.net/plain; echo)
 	echo -e '\E[32m'"External IP : $tecreset "$externalip
 
 	nameservers=$(sed '1 d' /etc/resolv.conf | awk '{print $2}')
@@ -81,5 +57,3 @@ if [[ $# -eq 0 ]]; then
 	rm /tmp/osrelease /tmp/who /tmp/ramcache /tmp/diskusage
 }
 fi
-
-shift $((OPTIND -1))
