@@ -5,3 +5,4 @@ bible
 *mp3
 sounds/
 *.o
+*.cfg
