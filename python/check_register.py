@@ -17,10 +17,13 @@ data = {
 }
 
 s = Service(str(Path.home() / "bin/opt/chromedriver"))
-option = webdriver.ChromeOptions()
-option.add_argument("-incognito")
-option.add_experimental_option("excludeSwitches", ["enable-automation"])
-browser = webdriver.Chrome(service=s, options=option)
+options = webdriver.ChromeOptions()
+options.binary_location = (
+    r"/Applications/Brave\ Browser\.app/Contents/MacOS/Brave\ Browser"
+)
+options.add_argument("-incognito")
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+browser = webdriver.Chrome(service=s, options=options)
 
 browser.get(GOOGLE_FORMS_URL)
 
