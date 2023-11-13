@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -euo pipefail
 
 readonly EX_USAGE=64
 readonly EX_NOINPUT=66
@@ -24,4 +24,4 @@ if [ ! -f "$1" ]; then
     exit $EX_NOINPUT
 fi
 
-jupyter nbconvert --stdout --to markdown "$1" 2>/dev/null | tail -n+2 | pygmentize -l python
+jupyter nbconvert --stdout --to markdown "$1"  2> /dev/null | tail -n+2 | pygmentize -l python | less -R

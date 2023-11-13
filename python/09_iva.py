@@ -4,12 +4,12 @@ import sys
 from pathlib import Path
 
 
-def sat(mount, kind='iva'):
-    iva = mount * 0.16
-    subtotal = mount + iva
+def sat(subtotal, kind='iva'):
+    iva = subtotal * 0.16
+    total = subtotal + iva
     retiva = iva * 2 / 3
-    retisr = mount * 0.10
-    end = subtotal + retiva + retisr
+    retisr = subtotal * 0.10
+    end = total + retiva + retisr
 
     iva_types = ['iva', 'ret']
     if kind not in iva_types:
@@ -21,13 +21,13 @@ def sat(mount, kind='iva'):
     if kind == 'iva':
         print(f"Con IVA\n"
               f"====================\n"
-              f"Cantidad  > {mount:.2f}\n"
+              f"Subtotal  > {subtotal:.2f}\n"
               f"IVA (16%) > {iva:.2f}\n"
-              f"Subtotal  > {subtotal:.2f}")
+              f"Total  > {total:.2f}")
     else:
         print(f"Con Retención\n"
               f"====================\n"
-              f"Cantidad  > {mount:.2f}\n"
+              f"Subtotal  > {subtotal:.2f}\n"
               f"IVA ret   > {retiva:.2f}\n"
               f"ISR ret   > {retisr:.2f}\n"
               f"Total     > {end:.2f}")
@@ -35,7 +35,8 @@ def sat(mount, kind='iva'):
 
 def main():
     if len(sys.argv) < 2:
-        print(f"\nUsage: ./{Path(sys.argv[0]).name} amount ['iva', 'ret']\n",
+        print(f"\nUsage: ./{Path(__file__).name} subtotal ['iva', 'ret']\n"
+              f"Default iva\n",
               file=sys.stderr)
         sys.exit(1)
     if len(sys.argv) < 3:

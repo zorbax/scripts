@@ -14,23 +14,23 @@ CONFIG_FILE = "config.cfg"
 class TelegramBot:
     def __init__(self, config):
         self.token = self.read_token(config)
-        self.base = "https://api.telegram.org/bot{}/".format(self.token)
+        self.base = f"https://api.telegram.org/bot{self.token}/"
 
     def get_updates(self):
         getupdates = self.base + "getUpdates?timeout=100"
-        r = requests.get(getupdates)
+        r = requests.get(getupdates, timeout=20)
         return json.loads(r.content)
 
     def get_chatid(self):
         getupdates = self.base + "getUpdates?timeout=100"
-        r = requests.get(getupdates, params={"result": "chat"})
+        r = requests.get(getupdates, timeout=20, params={"result": "chat"})
         input_dict = json.loads(r.content)
         return input_dict["result"][0]["message"]["chat"]["id"]
 
     def send_message(self, msg, chat_id):
-        url = self.base + "sendMessage?chat_id={}&text={}".format(chat_id, msg)
+        url = f"{self.base}sendMessage?chat_id={chat_id}&text={msg}"
         if msg is not None:
-            requests.get(url)
+            requests.get(url, timeout=20)
         return None
 
     @staticmethod

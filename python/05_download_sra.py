@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import os
 import sys
 import subprocess
+from pathlib import Path
 
 
 def main():
     if len(sys.argv) != 2:
-        print(f"\nUsage: ./{os.path.basename(sys.argv[0])} <srr_ids.txt>\n",
+        print(f"\nUsage: ./{Path(__file__).name} <srr_ids.txt>\n",
               file=sys.stderr)
         sys.exit(1)
 

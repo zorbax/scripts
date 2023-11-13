@@ -13,7 +13,7 @@ fake_header = seqid + ":{n}:{n:05}:{n:05}:{n:04} {r}:N:0:CTGAAGCT+AGGATAGG"
 
 def main():
     if len(sys.argv) != 3:
-        print(f"\nUsage: ./{Path(sys.argv[0]).name} <forward.fastq.gz> <revers.fastq.gz>\n",
+        print(f"\nUsage: ./{Path(__file__).name} <forward.fastq.gz> <revers.fastq.gz>\n",
               file=sys.stderr)
         sys.exit(1)
 

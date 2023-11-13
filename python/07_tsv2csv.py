@@ -8,7 +8,7 @@ import csv
 def main():
 
     if len(sys.argv) != 2:
-        print(f"\nUsage: ./{Path(sys.argv[0]).name}, file.csv",
+        print(f"\nUsage: ./{Path(__file__).name}, file.csv",
               file=sys.stderr)
         sys.exit(1)
 

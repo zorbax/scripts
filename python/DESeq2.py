@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 
-import numpy as np
-import rpy2.robjects as robjects
-from rpy2.robjects import Formula, numpy2ri, pandas2ri
-
-pandas2ri.activate()
-import rpy2
-from rpy2.robjects.packages import importr
-
-deseq = importr("DESeq2")
 import sys
 
+import numpy as np
+import rpy2
+import rpy2.robjects as robjects
 import rpy2.robjects as ro
+from rpy2.robjects import Formula, pandas2ri
 from rpy2.robjects.conversion import localconverter
+from rpy2.robjects.packages import importr
 
+pandas2ri.activate()
+
+deseq = importr("DESeq2")
 to_dataframe = robjects.r("function(x) data.frame(x)")
 
 
@@ -86,7 +85,6 @@ class DESeq2:
         self.dds.do_slot("colData").do_slot_assign("listData", val)
 
     def get_deseq_result(self, **kwargs):
-
         self.comparison = deseq.resultsNames(self.dds)
 
         self.deseq_result = deseq.results(self.dds, **kwargs)

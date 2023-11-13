@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 import contextlib
 import subprocess
 import signal
@@ -11,14 +10,16 @@ from pathlib import Path
 with contextlib.redirect_stdout(None):
     from pygame import mixer
 
-# brew install SDL
-# brew install SDL2
-# brew install leveldb
+# MacOS
+# brew install SDL SDL2 leveldb
+
+# Debian/Ubuntu
+# pip install pygame
 
 
 def main(args):
     if len(args[1:]) == 1:
-        print(f"\nUsage : {Path(sys.argv[0]).name} work_time rest_time\n")
+        print(f"\nUsage : {Path(__file__).name} work_time rest_time\n")
     elif len(args[1:]) == 0:
         twork, trest = 52, 17
     else:
@@ -38,7 +39,7 @@ def main(args):
         mixer.music.play(-1)
 
         def handler():
-            print(f"Timeout for {Path(sys.argv[0]).name}")
+            print(f"Timeout for {Path(__file__).name}")
             sys.exit()
 
         signal.signal(signal.SIGALRM, handler)

@@ -2,6 +2,7 @@
 !/.gitignore
 .ipynb*
 bible
+*tsv
 *mp3
 sounds/
 *.o

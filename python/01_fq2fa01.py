@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
 from Bio import SeqIO
+from pathlib import Path
 import sys
-import os
 
 
 def main():
     if len(sys.argv) != 3:
-        basename = os.path.basename(sys.argv[0])
-        print(f"\nUsage: ./{basename} <input.fastq> <output.fna>\n",
+        print(f"\nUsage: ./{Path(__file__).name} <input.fastq> <output.fna>\n",
               file=sys.stderr)
         sys.exit(1)
 
