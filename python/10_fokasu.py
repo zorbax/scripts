@@ -1,20 +1,42 @@
-#!/usr/bin/env python
-
-import contextlib
-import subprocess
+#!/usr/bin/env python3
 import signal
+import subprocess
 import sys
 import time
 from pathlib import Path
 
-with contextlib.redirect_stdout(None):
-    from pygame import mixer
+import pyglet
 
-# MacOS
-# brew install SDL SDL2 leveldb
+pyglet.options["headless"] = True
 
-# Debian/Ubuntu
-# pip install pygame
+
+def countdown(t, alarm):
+    while t >= 0:
+        mins, secs = divmod(t, 60)
+        timeformat = f"{mins:02d}:{secs:02d}"
+        print(f" > {timeformat}", end="\r")
+        time.sleep(1)
+        t -= 1
+
+    sound = pyglet.media.load(alarm)
+    player = pyglet.media.Player()
+    player.queue(sound)
+    player.volume = 0.3
+    player.loop = True
+    player.play()
+
+    def handler():
+        print(f"Timeout for {Path(__file__).name}")
+        sys.exit()
+
+    signal.signal(signal.SIGALRM, handler)
+    signal.alarm(240)
+
+    try:
+        input("")
+    except SyntaxError:
+        pass
+    player.pause()
 
 
 def main(args):
@@ -24,33 +46,6 @@ def main(args):
         twork, trest = 52, 17
     else:
         twork, trest = args[1:]
-
-    def countdown(t, alarm):
-        while t >= 0:
-            mins, secs = divmod(t, 60)
-            timeformat = f"{mins:02d}:{secs:02d}"
-            print(f" > {timeformat}", end="\r")
-            time.sleep(1)
-            t -= 1
-
-        mixer.init()
-        mixer.music.load(alarm)
-        mixer.music.set_volume(0.3)
-        mixer.music.play(-1)
-
-        def handler():
-            print(f"Timeout for {Path(__file__).name}")
-            sys.exit()
-
-        signal.signal(signal.SIGALRM, handler)
-        signal.alarm(240)
-
-        try:
-            input("")
-        except SyntaxError:
-            pass
-        mixer.music.stop()
-        signal.alarm(0)
 
     pwd = Path(__file__).resolve().parent
     work = pwd / "sounds/chip.mp3"
