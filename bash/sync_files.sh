@@ -4,7 +4,7 @@ manga="/home/zorbax/Documents/Dropbox/zorbax/Manga/"
 webdav="/media/verbatim/webdav/"
 docs="/home/zorbax/Documents"
 
-files=$(find ${manga} --path "${manga}/tofilter" -prune -o type f \( -name "*cbz" -o -name "*cbr" \) | wc -l)
+files=$(find ${manga} -path "${manga}/tofilter" -prune -o -type f \( -name "*cbz" -o -name "*cbr" \) | wc -l)
 
 while true; do
     sleep 30
