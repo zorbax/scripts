@@ -7,3 +7,6 @@ bible
 sounds/
 *.o
 *.cfg
+.env
+Cargo.lock
+target/
