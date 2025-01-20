@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import argparse
-import os
 import shutil
 from pathlib import Path
 from zipfile import ZipFile
@@ -11,68 +10,62 @@ class CbxManager:
         self,
         input_path: str,
         verbose: bool,
-        sep: str = os.sep,
     ):
         self.verbose = verbose
-        self.sep = sep
-        self.input_path = input_path
+        self.input_path = Path(input_path)
 
-    def parse_dir(self, input_dir):
-        path_deconstruct = [x for x in input_dir.split(self.sep) if x != ""]
+    def parse_dir(self, input_dir: Path):
+        input_dir = Path(input_dir)
+        path_deconstruct = list(input_dir.parts)
         folder = path_deconstruct[-1]
 
         if self.verbose:
             print(f"Parsing folder: {folder}")
-        path_deconstruct[-1] += ".cbz"
-        print(path_deconstruct, folder)
-        out_cbz = os.path.join(*path_deconstruct)  # Note: list to args=*
-        if input_dir[0] == self.sep:
-            out_cbz = self.sep + out_cbz
 
-        images = ["png", "jpg", "jpeg"]
+        out_cbz = input_dir.with_suffix(".cbz")
+        images = [".png", ".jpg", ".jpeg"]
 
         with ZipFile(out_cbz, "w") as myzip:
-            for files in sorted(os.listdir(input_dir)):
-                ext = files[-3:].lower()
-                if ext in images:
-                    file_to_add = os.path.join(input_dir, files)
+            for file in sorted(input_dir.iterdir()):
+                if file.suffix.lower() in images:
                     if self.verbose:
-                        print(f"        Adding {file_to_add}")
-                    myzip.write(file_to_add, arcname=files)
+                        print(f"        Adding {file}")
+                    myzip.write(file, arcname=file.name)
             if self.verbose:
                 print(f"    CBZ created: {out_cbz}")
 
-    def parse_cbz(self, input_file: str):
-        path_deconstruct = [x for x in input_file.split(self.sep) if x != ""]
-        cbr_file = path_deconstruct[-1]
-        path_out = input_file.replace(".cbz", "")
+    def parse_cbz(self, input_file: Path):
+        input_file = Path(input_file)
+        cbr_file = input_file.name
+        path_out = input_file.with_suffix("")
+
         if self.verbose:
-            print(f"Parsing cbr files: {cbr_file}")
+            print(f"Parsing CBZ file: {cbr_file}")
+
         with ZipFile(input_file, "r") as myzip:
             files_to_extract = myzip.namelist()
-            try:
-                os.mkdir(path_out)
-            except OSError:
-                pass
+            path_out.mkdir(exist_ok=True)
             for tmp_file in files_to_extract:
-                name = tmp_file.split(self.sep)[-1]
+                name = Path(tmp_file).name
+                dest_file = path_out / name
                 if self.verbose:
-                    print(f"        Extracting {path_out}{self.sep}{name}")
-                with open(f"{path_out}{self.sep}{name}", "wb") as tmp_img:
+                    print(f"        Extracting {dest_file}")
+                with open(dest_file, "wb") as tmp_img:
                     tmp_img.write(myzip.read(tmp_file))
             if self.verbose:
                 print(f"    CBZ extracted to {path_out}")
 
     @staticmethod
     def rename_chapter(chapt_path: Path) -> None:
-        patterns = [".png", ".jpg", "jpeg"]
+        patterns = [".png", ".jpg", ".jpeg"]
         for f in chapt_path.iterdir():
             if f.suffix in patterns:
                 print(f"Renaming {chapt_path.name}/{f.name}")
-                f.rename(
+                new_name = (
                     chapt_path.parent
                     / f"{chapt_path.name.replace(' ', '_')}_{f.stem}{f.suffix}"
                 )
+                f.rename(new_name)
             else:
                 print(f"{chapt_path} is empty")
         shutil.rmtree(chapt_path)
@@ -93,25 +86,26 @@ if __name__ == "__main__":
     parser.add_argument("-v", action="store_true", default=True, help="verbose")
     args = parser.parse_args()
 
-    input_data = args.input_data
+    input_data = Path(args.input_data).resolve()
 
     cbx = CbxManager(input_path=input_data, verbose=args.v)
 
     if args.n:
-        tomos_path = Path(input_data).resolve()
+        tomos_path = input_data
 
         chapters = [x for x in tomos_path.iterdir() if x.is_dir()]
         if not chapters:
             print("No Chapters in the folder")
-        for i in chapters:
-            cbx.rename_chapter(i)
+        for chapter in chapters:
+            cbx.rename_chapter(chapter)
     else:
         if not isinstance(input_data, list):
             input_data = [input_data]
         for volume in input_data:
-            if volume[-4:] == ".cbz":
-                cbx.parse_cbz(volume)
-            elif os.path.isdir(volume):
-                cbx.parse_dir(volume)
+            volume_path = Path(volume)
+            if volume_path.suffix == ".cbz":
+                cbx.parse_cbz(volume_path)
+            elif volume_path.is_dir():
+                cbx.parse_dir(volume_path)
             else:
-                print(f"Do not know what it is: {volume}")
+                print(f"Do not know what it is: {volume_path}")
